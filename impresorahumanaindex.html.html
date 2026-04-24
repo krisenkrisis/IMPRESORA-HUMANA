@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Impresora Humana</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #fff;
+      color: #000;
+      padding: 20px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px;
+    }
+    #output {
+      margin-top: 20px;
+      white-space: pre;
+      border: 1px solid #000;
+      padding: 10px;
+    }
+    #ticket {
+      margin-top: 20px;
+      white-space: pre;
+      border-top: 2px dashed #000;
+      padding-top: 10px;
+    }
+    #timer {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>IMPRESORA HUMANA</h2>
+
+<button onclick="generar()">GENERAR</button>
+<button onclick="start()">START</button>
+<button onclick="stop()">STOP</button>
+
+<div id="output"></div>
+<div id="timer">00:00</div>
+
+<h3>HISTORIAL</h3>
+<div id="ticket"></div>
+
+<script>
+
+// ÚTILES
+let utiles = [
+"Lápiz","Goma",
+"Boli azul","Boli negro","Boli rojo",
+"Rotu rojo","Rotu negro","Rotu blanco",
+"Cúter","Regla","Troqueladora"
+];
+
+// ACCIONES
+let acciones = [
+"Dibuja sin levantar el útil",
+"Colorea sin salirte",
+"Rellena toda la superficie",
+"Repite el mismo gesto",
+"Transcribe lo que oyes",
+"Transcribe lo que piensas",
+"Audio x2 hasta error",
+"Audio x0.5 hasta error",
+"Dibuja solo líneas rectas",
+"Dibuja solo curvas",
+"Dibuja sin mirar el papel",
+"Muerde el papel",
+"Presiona al máximo",
+"Presiona al mínimo",
+"Dibuja lo más rápido posible",
+"Dibuja lo más lento posible",
+"Haz puntos"
+];
+
+// DURACIONES
+let duraciones = [
+"Hasta que pienses en algo gracioso",
+"Hasta que pienses en algo triste",
+"Hasta que no aguantes",
+"Hasta que falle el útil",
+"Hasta que levantes el útil",
+"Hasta que escuches una palabra con E",
+"Hasta que pienses en algo",
+"Hasta que te pique el gemelo",
+"Hasta que alguien haga un ruido",
+"Hasta que parpadees 20 veces",
+"Hasta que pierdas el ritmo",
+"Hasta que aguantes la respiracion",
+"Hasta que te equivoques",
+"Hasta que te entre sed"
+];
+
+// POSICIONES
+let posiciones = [
+"De pie",
+"Sentada",
+"Tumbada boca arriba",
+"Tumbada boca abajo",
+"Con el útil atado al pie",
+"Con los ojos cerrados",
+"Con el codo",
+"Con la mano no dominante",
+"De rodillas",
+"Con el brazo estirado",
+"Muy cerca del papel",
+"Muy lejos del papel",
+"Girando el papel constantemente",
+"Sin mover la muñeca"
+];
+
+// VARIABLES INTERNAS
+let current = {};
+let timer;
+let seconds = 0;
+
+function rand(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function generar(){
+  current = {
+    util: rand(utiles),
+    accion: rand(acciones),
+    duracion: rand(duraciones),
+    posicion: rand(posiciones)
+  };
+
+  document.getElementById("output").innerText =
+`---------------------
+UTIL: ${current.util}
+ACCION: ${current.accion}
+POSICION: ${current.posicion}
+DURACION: ${current.duracion}
+---------------------`;
+}
+
+function start(){
+  seconds = 0;
+  timer = setInterval(()=>{
+    seconds++;
+    document.getElementById("timer").innerText =
+      new Date(seconds * 1000).toISOString().substr(14,5);
+  },1000);
+}
+
+function stop(){
+  clearInterval(timer);
+
+  let log =
+`---------------------
+UTIL: ${current.util}
+ACCION: ${current.accion}
+POSICION: ${current.posicion}
+TIEMPO: ${seconds}s
+---------------------`;
+
+  document.getElementById("ticket").innerText += log;
+}
+
+</script>
+
+</body>
+</html>
